@@ -4,25 +4,33 @@ import numpy as np
 from math import acos, degrees
 from datetime import datetime
 
+
 mp_drawing = mp.solutions.drawing_utils
 mp_pose = mp.solutions.pose
 
-cap = cv2.VideoCapture("video_001.mp4")
+# cap = cv2.VideoCapture("video_001.mp4")
 up = False
 down = False
 count = 0
-with mp_pose.Pose(
-    static_image_mode=False) as pose:
 
-    while True:
+cap = cv2.VideoCapture(0)
+
+with mp_pose.Pose(
+    min_detection_confidence=0.5, min_tracking_confidence=0.5
+) as pose:
+    while cap.isOpened():
+        # with mp_pose.Pose(
+        #    static_image_mode=False) as pose:
+        #
+        #    while True:
         ret, frame = cap.read()
-        if ret == False:
+        if not ret:  # if ret == False:
             break
-        #frame = cv2.flip(frame, 1)
+        frame = cv2.flip(frame, 1)
         height, width, _ = frame.shape
         frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         results = pose.process(frame_rgb)
-        
+
         if results.pose_landmarks is not None:
             x1 = int(results.pose_landmarks.landmark[24].x * width)
             y1 = int(results.pose_landmarks.landmark[24].y * height)
@@ -42,7 +50,9 @@ with mp_pose.Pose(
             l3 = np.linalg.norm(p1 - p2)
 
             # Calcular el ángulo
-            angle = degrees(acos((l1**2 + l3**2 - l2**2) / (2 * l1 * l3)))
+            angle = degrees(
+                acos((l1 ** 2 + l3 ** 2 - l2 ** 2) / (2 * l1 * l3))
+            )
             if angle >= 160:
                 up = True
             if up == True and down == False and angle <= 70:
@@ -69,13 +79,26 @@ with mp_pose.Pose(
             cv2.circle(output, (x1, y1), 6, (0, 255, 255), 4)
             cv2.circle(output, (x2, y2), 6, (128, 0, 250), 4)
             cv2.circle(output, (x3, y3), 6, (255, 191, 0), 4)
-            cv2.rectangle(output, (0, 0), (60, 60), (255, 255, 0), -1)
-            cv2.putText(output, str(int(angle)), (x2 + 30, y2), 1, 1.5, (128, 0, 250), 2)
+            cv2.rectangle(
+                output, (0, 0), (60, 60), (255, 255, 0), -1
+            )
+            cv2.putText(
+                output,
+                str(int(angle)),
+                (x2 + 30, y2),
+                1,
+                1.5,
+                (128, 0, 250),
+                2
+            )
             cv2.putText(output, str(count), (10, 50), 1, 3.5, (128, 0, 250), 2)
             imS1 = cv2.resize(output, (960, 540))
             cv2.imshow("output", imS1)
         imS = cv2.resize(frame, (960, 540))
-        cv2.imshow("Frame", imS,)
+        cv2.imshow(
+            "Frame",
+            imS,
+        )
         if cv2.waitKey(1) & 0xFF == 27:
             break
 
