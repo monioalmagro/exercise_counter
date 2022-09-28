@@ -8,16 +8,14 @@ from datetime import datetime
 mp_drawing = mp.solutions.drawing_utils
 mp_pose = mp.solutions.pose
 
-# cap = cv2.VideoCapture("video_001.mp4")
+cap = cv2.VideoCapture("video_001.mp4")
 up = False
 down = False
 count = 0
 
-cap = cv2.VideoCapture(0)
+# cap = cv2.VideoCapture(0)
 
-with mp_pose.Pose(
-    min_detection_confidence=0.5, min_tracking_confidence=0.5
-) as pose:
+with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as pose:
     while cap.isOpened():
         # with mp_pose.Pose(
         #    static_image_mode=False) as pose:
@@ -50,9 +48,7 @@ with mp_pose.Pose(
             l3 = np.linalg.norm(p1 - p2)
 
             # Calcular el ángulo
-            angle = degrees(
-                acos((l1 ** 2 + l3 ** 2 - l2 ** 2) / (2 * l1 * l3))
-            )
+            angle = degrees(acos((l1**2 + l3**2 - l2**2) / (2 * l1 * l3)))
             if angle >= 160:
                 up = True
             if up == True and down == False and angle <= 70:
@@ -61,11 +57,11 @@ with mp_pose.Pose(
                 count += 1
                 up = False
                 down = False
-            now = datetime.now()
-            current_time = now.strftime("%H:%M:%S")
-            print("Current Time =", current_time)
+                now = datetime.now()
+                current_time = now.strftime("%H:%M:%S")
+                print("Current Time =", current_time)
 
-            print("count: ", count)
+                print("count: ", count)
             # Visualización
             aux_image = np.zeros(frame.shape, np.uint8)
             cv2.line(aux_image, (x1, y1), (x2, y2), (255, 255, 0), 20)
@@ -79,17 +75,9 @@ with mp_pose.Pose(
             cv2.circle(output, (x1, y1), 6, (0, 255, 255), 4)
             cv2.circle(output, (x2, y2), 6, (128, 0, 250), 4)
             cv2.circle(output, (x3, y3), 6, (255, 191, 0), 4)
-            cv2.rectangle(
-                output, (0, 0), (60, 60), (255, 255, 0), -1
-            )
+            cv2.rectangle(output, (0, 0), (60, 60), (255, 255, 0), -1)
             cv2.putText(
-                output,
-                str(int(angle)),
-                (x2 + 30, y2),
-                1,
-                1.5,
-                (128, 0, 250),
-                2
+                output, str(int(angle)), (x2 + 30, y2), 1, 1.5, (128, 0, 250), 2
             )
             cv2.putText(output, str(count), (10, 50), 1, 3.5, (128, 0, 250), 2)
             imS1 = cv2.resize(output, (960, 540))
