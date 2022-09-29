@@ -13,7 +13,17 @@ def connect_db():
                                 direccion text
                             )"""
         )
-        # print("se creo la tabla articulos")
+        conexion.execute(
+            """
+            create table series (
+                id integer primary key autoincrement,
+                cliente text,
+                inicio timestamp,
+                cantidad real,
+                fin timestamp
+            )
+            """
+        )
     except sqlite3.OperationalError:
         print("La tabla clientes ya existe")
     conexion.close()
@@ -30,10 +40,23 @@ def insert_cliente(nombre, edad, fecha, direccion):
     conexion.close()
 
 
+def insert_serie(cliente, inicio, cantidad, fin):
+    connect_db()
+    conexion = sqlite3.connect("bd1.db")
+    conexion.execute(
+        "insert into series(cliente, inicio, cantidad, fin) values (?, ?, ?, ?)",
+        (cliente, inicio, cantidad, fin),
+    )
+    conexion.commit()
+    conexion.close()
+
+
 def list_customer():
+    list_user = []
     connect_db()
     conexion = sqlite3.connect("bd1.db")
     cursor = conexion.execute("select * from clientes")
     for fila in cursor:
-        print(fila)
+        list_user.append(fila[1])
     conexion.close()
+    return list_user

@@ -1,7 +1,9 @@
 import datetime
-from tkinter import Button, Entry, Label, Tk, Toplevel, mainloop
+from tkinter import Button, Entry, Label, Listbox, Tk, Toplevel, mainloop
 
 from conecction_db import insert_cliente, list_customer
+from main import Principal
+from pruebas import Example
 
 
 def register_user():
@@ -11,11 +13,13 @@ def register_user():
     fecha = str(datetime.datetime.now())
     insert_cliente(nombre, edad, direccion, fecha)
     list_customer()
+    ventana_nueva.destroy()
 
 
 def windows_user():
+    global ventana_nueva
     ventana_nueva = Toplevel()
-    ventana_nueva.title("ventana secundaria")
+    ventana_nueva.title("Registrar usuario")
     ventana_nueva.geometry("400x300")
     bienvenido = Label(ventana_nueva, text="BIENVENIDO")
     bienvenido.grid(row=0, column=0)
@@ -53,9 +57,47 @@ def windows_user():
     boton_grabar.grid(row=4, column=1)
 
 
+def select_user():
+    select = listbox.curselection()[0]
+    usuario = list_customer()[select]
+    print(usuario)
+    Example()
+    emi = Principal(usuario)
+    a = emi.magic()
+    ventana_nueva.destroy()
+
+
+def windows_list_user():
+    global ventana_nueva
+    ventana_nueva = Toplevel()
+    ventana_nueva.title("Usuarios")
+    ventana_nueva.geometry("400x300")
+    global listbox
+    listbox = Listbox(ventana_nueva)
+    customers = list_customer()
+    n = 0
+    for customer in customers:
+        listbox.insert(n, customer)
+        n = +1
+    listbox.pack()
+    boton = Button(
+        ventana_nueva,
+        text="Seleccion",
+        bg="green",
+        padx=50,
+        pady=25,
+        command=select_user,
+    )
+    boton.pack()
+
+
+def destroy():
+    root.destroy()
+
+
 root = Tk()
 root.title("Contador de Ejercicios")
-root.geometry("500x500")
+root.geometry("500x350")
 label = Label(
     root,
     text="Seleccione la opcion deseada!",
@@ -65,18 +107,30 @@ label = Label(
 label.pack()
 boton1 = Button(
     root,
-    text="Registrar nuevo usuario",
+    text="Registrar  nuevo  usuario",
     bg="green",
     padx=50,
     pady=25,
     command=windows_user,
 )
 boton1.pack()
-# var = StringVar()
-# var.set("¡Hola, mundo!")
-
-# entry = ttk.Entry()
-# entry.place(x=50, y=50)
-
+boton2 = Button(
+    root,
+    text="Registrar Actividad fisica",
+    bg="green",
+    padx=50,
+    pady=25,
+    command=windows_list_user,
+)
+boton2.pack()
+boton3 = Button(
+    root,
+    text=" Salir     del     programa ",
+    bg="green",
+    padx=50,
+    pady=25,
+    command=destroy,
+)
+boton3.pack()
 
 mainloop()
