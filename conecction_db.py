@@ -25,7 +25,7 @@ def connect_db():
             """
         )
     except sqlite3.OperationalError:
-        print("La tabla clientes ya existe")
+        pass
     conexion.close()
 
 
@@ -58,5 +58,18 @@ def list_customer():
     cursor = conexion.execute("select * from clientes")
     for fila in cursor:
         list_user.append(fila[1])
+    conexion.close()
+    return list_user
+
+
+def list_series(usuario):
+    list_user = []
+    connect_db()
+    conexion = sqlite3.connect("bd1.db")
+    consult = "SELECT * FROM series WHERE cliente="
+    query = "{0}'{1}'".format(consult, usuario)
+    cursor = conexion.execute(query)
+    for fila in cursor:
+        list_user.append(fila[3])
     conexion.close()
     return list_user

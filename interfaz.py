@@ -1,7 +1,7 @@
 import datetime
 from tkinter import Button, Entry, Label, Listbox, Tk, Toplevel, mainloop
 
-from conecction_db import insert_cliente, list_customer
+from conecction_db import insert_cliente, list_customer, list_series
 from main import Principal
 from pruebas import Example
 
@@ -67,6 +67,37 @@ def select_user():
     ventana_nueva.destroy()
 
 
+def destroy_2():
+    ventana_list_customer.destroy()
+
+
+def select_user_2():
+    select = listbox.curselection()[0]
+    usuario = list_customer()[select]
+    print(usuario)
+    lista = list_series(usuario)
+    global ventana_list_customer
+    ventana_list_customer = Toplevel()
+    ventana_list_customer.title("Rutinas")
+    ventana_list_customer.geometry("400x300")
+    global listbox_rutinas
+    listbox_rutinas = Listbox(ventana_list_customer)
+    n = 0
+    for customer in lista:
+        listbox_rutinas.insert(n, customer)
+        n = +1
+    listbox_rutinas.pack()
+    boton = Button(
+        ventana_list_customer,
+        text="Salir",
+        bg="green",
+        padx=50,
+        pady=25,
+        command=destroy_2,
+    )
+    boton.pack()
+
+
 def windows_list_user():
     global ventana_nueva
     ventana_nueva = Toplevel()
@@ -91,13 +122,36 @@ def windows_list_user():
     boton.pack()
 
 
+def windows_list_user_2():
+    global ventana_nueva
+    ventana_nueva = Toplevel()
+    ventana_nueva.title("Usuarios")
+    ventana_nueva.geometry("400x300")
+    global listbox
+    listbox = Listbox(ventana_nueva)
+    customers = list_customer()
+    n = 0
+    for customer in customers:
+        listbox.insert(n, customer)
+        n = +1
+    listbox.pack()
+    boton = Button(
+        ventana_nueva,
+        text="Seleccion",
+        bg="green",
+        padx=50,
+        pady=25,
+        command=select_user_2,
+    )
+    boton.pack()
+
 def destroy():
     root.destroy()
 
 
 root = Tk()
 root.title("Contador de Ejercicios")
-root.geometry("500x350")
+root.geometry("500x450")
 label = Label(
     root,
     text="Seleccione la opcion deseada!",
@@ -125,12 +179,22 @@ boton2 = Button(
 boton2.pack()
 boton3 = Button(
     root,
-    text=" Salir     del     programa ",
+    text=" Listar          Rutinas ",
     bg="green",
+    padx=50,
+    pady=25,
+    command=windows_list_user_2,
+)
+boton3.pack()
+boton4 = Button(
+    root,
+    text=" Salir     del     programa ",
+    bg="red",
     padx=50,
     pady=25,
     command=destroy,
 )
-boton3.pack()
+boton4.pack()
+
 
 mainloop()

@@ -13,7 +13,7 @@ mp_pose = mp.solutions.pose
 class Principal:
     def __init__(self, usuario) -> None:
         self.cap = cv2.VideoCapture("ejercicio.mp4")
-        # self.cap = cv2.VideoCapture(0)
+        #self.cap = cv2.VideoCapture(0)
 
         self.up = False
         self.down = False
@@ -27,19 +27,16 @@ class Principal:
         ) as pose:
             while self.cap.isOpened():
                 time_2 = datetime.now()
-                print(time_2.second - time_1.second)
                 if time_2.second - time_1.second > 10:
-                    # cliente, inicio, cantidad, fin
                     insert_serie(self.usuario, time_1, self.count, time_2)
                     cv2.destroyAllWindows()
                     return False
-                    # break
                 # with mp_pose.Pose(
                 #    static_image_mode=False) as pose:
                 #
                 #    while True:
                 ret, frame = self.cap.read()
-                if not ret:  # if ret == False:
+                if not ret:
                     break
                 frame = cv2.flip(frame, 1)
                 height, width, _ = frame.shape
