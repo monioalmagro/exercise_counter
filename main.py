@@ -29,7 +29,8 @@ class Principal:
             while self.cap.isOpened():
                 time_2 = datetime.now()
                 if time_2.second - time_1.second > 60:
-                    insert_serie(self.usuario, time_1, self.count, time_2)
+                    exercise = "sentadillas"
+                    insert_serie(self.usuario, exercise, time_1, self.count, time_2)
                     cv2.destroyAllWindows()
                     return False
                 # with mp_pose.Pose(
@@ -130,8 +131,10 @@ class Principal:
                 time_now = time()
                 time_2 = datetime.now()
                 a = time_now - time_start
+                print(a)
                 if a > 60:
-                    insert_serie(self.usuario, time_1, self.counter, time_2)
+                    exercise = "mancuernas"
+                    insert_serie(self.usuario, exercise, time_1, self.counter, time_2)
                     cv2.destroyAllWindows()
                     return False
                 ret, frame = self.cap.read()

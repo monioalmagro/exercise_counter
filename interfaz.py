@@ -194,7 +194,7 @@ def select_user_2():
     ventana_list_customer.title("Rutinas")
     ventana_list_customer.geometry("400x300")
     global listbox_rutinas
-    listbox_rutinas = Listbox(ventana_list_customer)
+    listbox_rutinas = Listbox(ventana_list_customer,width=30)
     n = 0
     for customer in lista:
         listbox_rutinas.insert(n, customer)
