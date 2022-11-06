@@ -1,4 +1,5 @@
 import sqlite3
+from  datetime import datetime
 
 
 def connect_db():
@@ -70,6 +71,6 @@ def list_series(usuario):
     query = "{0}'{1}'".format(consult, usuario)
     cursor = conexion.execute(query)
     for fila in cursor:
-        list_user.append(fila[3])
+        list_user.append("{0}--{1}".format(fila[3], fila[4][:10]))
     conexion.close()
     return list_user

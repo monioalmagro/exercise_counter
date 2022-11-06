@@ -57,27 +57,30 @@ def windows_user():
     )
     boton_grabar.grid(row=4, column=1)
 
-def sentadillas(usuario):
-    Example()
-    emi = Principal(usuario)
+
+def sentadillas():
+    user = usuario
+    emi = Principal(user)
     a = emi.magic()
     ventana_nueva.destroy()
 
 
-def biceps(usuario):
-    emi = Principal(usuario)
+def biceps():
+    user = usuario
+    emi = Principal(user)
     a = emi.mancurnas()
     ventana_nueva.destroy()
 
 
 def select_user():
     select = listbox.curselection()[0]
+    global usuario
     usuario = list_customer()[select]
     print(usuario)
     
     ventana_eleccion_ejercicio = Toplevel()
     ventana_eleccion_ejercicio.title("Selección de ejercicios")
-    ventana_eleccion_ejercicio.geometry("400x300")
+    ventana_eleccion_ejercicio.geometry("300x800")
     label = Label(
         ventana_eleccion_ejercicio,
         text="Seleccione la opcion deseada!",
@@ -87,7 +90,7 @@ def select_user():
     label.pack()
     boton1 = Button(
         ventana_eleccion_ejercicio,
-        text="    Registrar   biceps   ",
+        text="     Biceps      ",
         bg="green",
         padx=50,
         pady=25,
@@ -96,15 +99,85 @@ def select_user():
     boton1.pack()
     boton2 = Button(
         ventana_eleccion_ejercicio,
-        text="Registrar  sentadillas",
+        text="  Sentadillas  ",
         bg="green",
         padx=50,
         pady=25,
-        command=sentadillas(usuario),
+        command=sentadillas,#(usuario),
     )
     boton2.pack()
-    # a = emi.mancurnas()
-    ventana_eleccion_ejercicio.destroy()
+    boton3 = Button(
+        ventana_eleccion_ejercicio,
+        text="  Zancadas    ",
+        bg="green",
+        padx=50,
+        pady=25,
+        command=sentadillas,#(usuario),
+    )
+    boton3.pack()
+    boton4 = Button(
+        ventana_eleccion_ejercicio,
+        text=" Salto estrella",
+        bg="green",
+        padx=50,
+        pady=25,
+        command=sentadillas,#(usuario),
+    )
+    boton4.pack()
+    boton5 = Button(
+        ventana_eleccion_ejercicio,
+        text="Jumping Jacks",
+        bg="green",
+        padx=50,
+        pady=25,
+        command=sentadillas,#(usuario),
+    )
+    boton5.pack()
+    boton6 = Button(
+        ventana_eleccion_ejercicio,
+        text="  Zancadillas  ",
+        bg="green",
+        padx=50,
+        pady=25,
+        command=sentadillas,#(usuario),
+    )
+    boton6.pack()
+    boton7 = Button(
+        ventana_eleccion_ejercicio,
+        text=" Abdominales ",
+        bg="green",
+        padx=50,
+        pady=25,
+        command=sentadillas,#(usuario),
+    )
+    boton7.pack()
+    boton8 = Button(
+        ventana_eleccion_ejercicio,
+        text="      Tijeras      ",
+        bg="green",
+        padx=50,
+        pady=25,
+        command=sentadillas,#(usuario),
+    )
+    boton8.pack()
+    boton9 = Button(
+        ventana_eleccion_ejercicio,
+        text="    Escalador    ",
+        bg="green",
+        padx=50,
+        pady=25,
+        command=sentadillas,#(usuario),
+    )
+    boton9.pack()
+    boton10 = Button(
+        ventana_eleccion_ejercicio,
+        text="Elevacion piernas",
+        bg="green",
+        padx=50,
+        pady=25,
+        command=sentadillas,#(usuario),
+    )
+    boton10.pack()
 
 
 def destroy_2():
@@ -185,8 +258,10 @@ def windows_list_user_2():
     )
     boton.pack()
 
+
 def destroy():
     root.destroy()
+
 
 def test():
     test_system()
@@ -222,7 +297,7 @@ boton2 = Button(
 boton2.pack()
 boton3 = Button(
     root,
-    text="Listar repeticione Rutinas",
+    text="Mostrar  Datos y Rutinas",
     bg="green",
     padx=50,
     pady=25,
@@ -240,7 +315,7 @@ boton4 = Button(
 boton4.pack()
 boton5 = Button(
     root,
-    text=" Salir      del      programa ",
+    text=" Salir      del     programa ",
     bg="red",
     padx=50,
     pady=25,

@@ -1,4 +1,5 @@
 from datetime import datetime
+from time import time
 from math import acos, degrees
 
 import cv2
@@ -27,7 +28,7 @@ class Principal:
         ) as pose:
             while self.cap.isOpened():
                 time_2 = datetime.now()
-                if time_2.second - time_1.second > 10:
+                if time_2.second - time_1.second > 60:
                     insert_serie(self.usuario, time_1, self.count, time_2)
                     cv2.destroyAllWindows()
                     return False
@@ -119,12 +120,20 @@ class Principal:
 
         return angle 
 
-    ## Setup mediapipe instance
     def mancurnas(self):
+        time_1 = datetime.now()
+        time_start  = time()
         self.counter = 0 
         self.stage = None
         with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as pose:
             while self.cap.isOpened():
+                time_now = time()
+                time_2 = datetime.now()
+                a = time_now - time_start
+                if a > 60:
+                    insert_serie(self.usuario, time_1, self.counter, time_2)
+                    cv2.destroyAllWindows()
+                    return False
                 ret, frame = self.cap.read()
 
                 # Recolor image to RGB
@@ -163,7 +172,6 @@ class Principal:
                         self.stage="up"
                         self.counter +=1
                         print(self.counter)
-
                 except:
                     pass
                 
